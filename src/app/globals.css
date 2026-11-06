@@ -1,0 +1,357 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-code);
+  --font-display: var(--font-display);
+  --color-blood: var(--blood);
+  --color-blood-deep: var(--blood-deep);
+  --color-milk: var(--milk);
+  --color-bone: var(--bone);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ── BLOOD & MILK palette ─────────────────────────────────────────── */
+:root {
+  --radius: 0.375rem;
+  --background: #060607;
+  --foreground: #f2ede3;
+  --card: #0c0b0b;
+  --card-foreground: #f2ede3;
+  --popover: #0c0b0b;
+  --popover-foreground: #f2ede3;
+  --primary: #e01b1b;
+  --primary-foreground: #ffffff;
+  --secondary: #141213;
+  --secondary-foreground: #f2ede3;
+  --muted: #161414;
+  --muted-foreground: #a39b90;
+  --accent: #1c0d0d;
+  --accent-foreground: #ff4b4b;
+  --destructive: #e01b1b;
+  --border: rgba(242, 237, 227, 0.09);
+  --input: rgba(242, 237, 227, 0.12);
+  --ring: #e01b1b;
+  --blood: #e01b1b;
+  --blood-deep: #7a0f0f;
+  --milk: #f2ede3;
+  --bone: #a39b90;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image: radial-gradient(
+        ellipse 80% 50% at 50% -10%,
+        rgba(224, 27, 27, 0.07),
+        transparent
+      ),
+      radial-gradient(
+        ellipse 60% 40% at 90% 110%,
+        rgba(122, 15, 15, 0.05),
+        transparent
+      );
+    background-attachment: fixed;
+  }
+  ::selection {
+    background: #e01b1b;
+    color: #060607;
+  }
+}
+
+/* Custom scrollbar — black track, blood thumb */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #060607;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a0f0f;
+  border: 2px solid #060607;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e01b1b;
+}
+
+/* ── Film grain overlay ───────────────────────────────────────────── */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  mix-blend-mode: overlay;
+}
+
+/* ── Scanlines (CRT / grunge) ─────────────────────────────────────── */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(6, 6, 7, 0) 0px,
+    rgba(6, 6, 7, 0) 2px,
+    rgba(6, 6, 7, 0.22) 3px,
+    rgba(6, 6, 7, 0.22) 4px
+  );
+  opacity: 0.5;
+}
+
+/* ── Outline watermark text ───────────────────────────────────────── */
+.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(242, 237, 227, 0.13);
+}
+.text-stroke-red {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(224, 27, 27, 0.35);
+}
+
+/* ── Glitch effect ────────────────────────────────────────────────── */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+.glitch::before {
+  color: #ff2a2a;
+  z-index: -1;
+  animation: glitch-a 3.2s infinite steps(1);
+}
+.glitch::after {
+  color: #f2ede3;
+  z-index: -2;
+  animation: glitch-b 2.7s infinite steps(1);
+}
+
+@keyframes glitch-a {
+  0%,
+  86%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(0 0 0 0);
+  }
+  87% {
+    opacity: 0.85;
+    transform: translate(-6px, 3px);
+    clip-path: inset(12% 0 58% 0);
+  }
+  89% {
+    opacity: 0.85;
+    transform: translate(5px, -2px);
+    clip-path: inset(62% 0 8% 0);
+  }
+  91% {
+    opacity: 0.85;
+    transform: translate(-4px, 1px);
+    clip-path: inset(38% 0 42% 0);
+  }
+  93% {
+    opacity: 0;
+  }
+}
+@keyframes glitch-b {
+  0%,
+  78%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(0 0 0 0);
+  }
+  79% {
+    opacity: 0.7;
+    transform: translate(6px, -3px);
+    clip-path: inset(55% 0 22% 0);
+  }
+  82% {
+    opacity: 0.7;
+    transform: translate(-5px, 2px);
+    clip-path: inset(8% 0 74% 0);
+  }
+  85% {
+    opacity: 0.7;
+    transform: translate(3px, -1px);
+    clip-path: inset(44% 0 30% 0);
+  }
+  87% {
+    opacity: 0;
+  }
+}
+
+/* ── Marquee ──────────────────────────────────────────────────────── */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x 30s linear infinite;
+}
+.marquee-track-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee-x 55s linear infinite;
+}
+
+/* ── Link row red sweep ───────────────────────────────────────────── */
+.link-sweep {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.link-sweep::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, #e01b1b, #8f1212);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-sweep:hover::before,
+.link-sweep:focus-visible::before {
+  transform: scaleX(1);
+}
+
+/* ── Blood drip under hover ───────────────────────────────────────── */
+.drip-line {
+  position: relative;
+}
+.drip-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 100%;
+  background: #e01b1b;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.drip-line:hover::after,
+.drip-line:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ── Pulsing red glow ─────────────────────────────────────────────── */
+@keyframes blood-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 24px rgba(224, 27, 27, 0.35),
+      0 0 64px rgba(224, 27, 27, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 36px rgba(224, 27, 27, 0.55),
+      0 0 96px rgba(224, 27, 27, 0.22);
+  }
+}
+.blood-glow {
+  animation: blood-pulse 3.2s ease-in-out infinite;
+}
+
+/* ── Scroll hint line ─────────────────────────────────────────────── */
+@keyframes scroll-hint {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.scroll-hint-line {
+  animation: scroll-hint 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .marquee-track-slow,
+  .blood-glow,
+  .scroll-hint-line,
+  .glitch::before,
+  .glitch::after {
+    animation: none !important;
+  }
+  .glitch::before,
+  .glitch::after {
+    opacity: 0 !important;
+  }
+}
